@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        var gl = null;
+        window.onload = init;
+        window.onkeydown = keydown;
+
+        function init(){
+            var canvas = document.getElementById('canvas');
+            var names = ['webgl', 'weblit-3d', 'moz-webgl'];
+            for(var i = 0; i < names.length; i++){
+                try {
+                    gl = canvas.getContext(names[i]);
+                } catch (error) {
+                    
+                }
+                if(gl) break;
+            }
+            if(gl !== null){
+                alert('enable');
+            }
+        }
+
+        function keydown(event) {
+            switch (event.keyCode) {
+                case 49: //1
+                    gl.clearColor(0.0, 0.5, 0.0, 1.0);
+                    cclear(gl);
+                    break;
+                case 50: //2
+                    gl.clearColor(0.5, 0.5, 0.0, 1.0);
+                    cclear(gl);
+                    break;
+                case 51: //3
+                    gl.clearColor(0.0, 0.0, 0.5, 1.0);
+                    cclear(gl);
+                    break;
+            
+                default:
+                    break;
+            }
+        }
+
+        function cclear(ctx) {
+            ctx.clear(ctx.COLOR_BUFFER_BIT);
+            ctx.viewport(0, 0, 400, 400);
+        }
+    </script>
+</head>
+<body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+</body>
+</html>
