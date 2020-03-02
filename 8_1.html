@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="build/three.min.js"></script>
+    <style>
+        body {
+            background: black;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        var scene, camera, renderer, container;
+        var W, H;
+
+        W = parseInt(window.innerWidth);
+        H = parseInt(window.innerHeight);  
+
+        container = document.createElement('div');
+        document.body.appendChild(container);
+
+        camera = new THREE.PerspectiveCamera(45, W/H, 1, 10000000);
+        camera.position.z = 1;
+        scene = new THREE.Scene();
+
+        //*************ITEMS**************
+        var starts_geometry = new THREE.Geometry();
+        var stars_material = new THREE.ParticleBasicMaterial({color:0xe6e6fa, size: 1, sizeAttenuation: false});
+        var stars;
+
+        for(var i = 0; i < 5000; i++) {
+            var vertex = new THREE.Vector3();
+            vertex.x = Math.random()*2 - 1;
+            vertex.y = Math.random()*2 - 1;
+            vertex.z = Math.random()*2 - 1;
+            starts_geometry.vertices.push(vertex);
+        };
+        stars = new THREE.ParticleSystem(starts_geometry, stars_material);
+        scene.add(stars);
+        //********************************
+
+        renderer = new THREE.WebGLRenderer({ alpha: true });
+        renderer.setSize(W, H);
+        container.appendChild(renderer.domElement);
+
+        function animation() {
+            requestAnimationFrame(animation);
+            camera.lookAt(scene.position);          
+            renderer.render(scene, camera);  
+        };
+        animation();
+
+        function onWindowresize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        window.addEventListener('resize', onWindowresize, false);
+
+
+    </script>
+</body>
+</html>
